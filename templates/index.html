@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>سعر عربيتك المستعملة</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Changa:wght@500;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<header class="scene" id="scene">
+  <svg viewBox="0 0 1440 440" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <defs>
+      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#0B2F3A"/><stop offset=".55" stop-color="#2D6A73"/><stop offset="1" stop-color="#F2A33A"/>
+      </linearGradient>
+      <radialGradient id="glow"><stop offset="0" stop-color="#FFD27A" stop-opacity=".75"/><stop offset="1" stop-color="#FFD27A" stop-opacity="0"/></radialGradient>
+      <linearGradient id="beamG" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#FFE9A8" stop-opacity=".9"/><stop offset="1" stop-color="#FFE9A8" stop-opacity="0"/>
+      </linearGradient>
+      <g id="far"><path d="M0 300C160 250 300 270 460 290S760 250 940 285 1260 255 1440 300V345H0Z" fill="#24606B"/></g>
+      <g id="mid"><path d="M0 335C200 295 380 330 560 322S900 290 1100 325 1340 330 1440 335V385H0Z" fill="#D89A55"/></g>
+      <g id="near"><path d="M0 360C240 340 420 365 700 352S1100 338 1440 360V400H0Z" fill="#B97A3E"/></g>
+    </defs>
+
+    <rect width="1440" height="440" fill="url(#sky)"/>
+    <circle cx="900" cy="285" r="230" fill="url(#glow)"/>
+    <circle cx="900" cy="285" r="62" fill="#FFD98C"/>
+
+    <g class="scroll l1"><use href="#far"/><use href="#far" x="1440"/></g>
+    <g class="scroll l2"><use href="#mid"/><use href="#mid" x="1440"/></g>
+    <g class="scroll l3"><use href="#near"/><use href="#near" x="1440"/></g>
+
+    <rect y="385" width="1440" height="55" fill="#2B3138"/>
+    <rect y="385" width="1440" height="3" fill="#F2A33A"/>
+    <g class="scroll posts" fill="#1B2A30">
+      <g id="postset"></g>
+    </g>
+    <g class="scroll dashes" fill="#E9EEF0" opacity=".85"><g id="dashset"></g></g>
+
+    <g class="car" transform="translate(470 335)">
+      <polygon class="beam" points="268,50 600,16 600,92" fill="url(#beamG)"/>
+      <g class="car-body">
+        <path d="M8 66V52Q8 44 18 42L70 36 92 14Q96 10 102 10H176Q184 10 190 16L212 36 258 42Q272 44 272 54V66Z" fill="#F1F4F5"/>
+        <rect x="8" y="52" width="264" height="5" fill="#F2A33A"/>
+        <path d="M100 16H136V36H82ZM142 16H174Q179 16 183 20L200 36H142Z" fill="#9FC9D2"/>
+        <rect x="8" y="60" width="264" height="6" fill="#C5CED1"/>
+        <ellipse cx="266" cy="49" rx="5" ry="4" fill="#FFE9A8"/>
+        <rect x="8" y="46" width="5" height="8" rx="2" fill="#D9402B"/>
+      </g>
+      <g transform="translate(62 72)"><circle r="19" fill="#12181C"/><g class="wheel"><circle r="11" fill="#A9B5B9"/><circle cy="-6" r="2.4" fill="#12181C"/><circle cx="5" cy="3" r="2.4" fill="#12181C"/><circle cx="-5" cy="3" r="2.4" fill="#12181C"/></g></g>
+      <g transform="translate(212 72)"><circle r="19" fill="#12181C"/><g class="wheel"><circle r="11" fill="#A9B5B9"/><circle cy="-6" r="2.4" fill="#12181C"/><circle cx="5" cy="3" r="2.4" fill="#12181C"/><circle cx="-5" cy="3" r="2.4" fill="#12181C"/></g></g>
+    </g>
+  </svg>
+
+  <div class="hero-copy">
+    <div class="wrap">
+      <button type="button" class="lang" id="lang">English</button>
+      <h1 data-i18n="title"></h1>
+      <p data-i18n="sub"></p>
+    </div>
+  </div>
+</header>
+
+<main class="grid">
+  <form id="form" class="panel" novalidate>
+    <div class="field">
+      <label for="brand" data-i18n="brand"></label>
+      <select id="brand" required></select>
+    </div>
+
+    <div class="field">
+      <label for="model" data-i18n="model"></label>
+      <select id="model" required disabled></select>
+      <small id="modelHint" class="hint"></small>
+    </div>
+
+    <div class="field">
+      <div class="row">
+        <label for="year" data-i18n="year"></label>
+        <output id="yearVal" class="big"></output>
+      </div>
+      <input type="range" id="year" step="1">
+    </div>
+
+    <div class="field">
+      <label for="kmNum" data-i18n="km"></label>
+      <div class="odo" id="odo" aria-hidden="true"></div>
+      <div class="km-inputs">
+        <input type="number" id="kmNum" inputmode="numeric" min="0" max="2000000" step="1000">
+        <input type="range" id="km" step="1000" aria-label="km">
+      </div>
+    </div>
+
+    <fieldset class="field">
+      <legend data-i18n="fuel"></legend>
+      <div class="seg" id="fuels"></div>
+    </fieldset>
+
+    <fieldset class="field">
+      <legend data-i18n="trans"></legend>
+      <div class="seg" id="trans"></div>
+    </fieldset>
+
+    <p class="err" id="err" role="alert" hidden></p>
+    <button type="submit" class="go" id="go"><span class="spin" aria-hidden="true"></span><span id="goTxt" data-i18n="calc"></span></button>
+  </form>
+
+  <section class="cluster is-empty" id="cluster" aria-live="polite">
+    <svg class="gauge" viewBox="0 0 360 250" role="img" aria-label="price gauge">
+      <path id="gTrack" fill="none" stroke="#243A44" stroke-width="16" stroke-linecap="round"/>
+      <path id="gFill" fill="none" stroke="#F2A33A" stroke-width="16" pathLength="100" stroke-dasharray="0 100"/>
+      <g id="gTicks"></g>
+      <g id="needle"><polygon points="176.5,170 183.5,170 180,48" fill="#E2452F"/><circle cx="180" cy="170" r="11" fill="#E8F1F3"/><circle cx="180" cy="170" r="4" fill="#0F222B"/></g>
+    </svg>
+
+    <div class="readout"><span id="price" class="display">—</span><small data-i18n="unit"></small></div>
+    <p class="empty-hint" data-i18n="empty"></p>
+
+    <div class="result">
+      <div class="range">
+        <p class="cap" data-i18n="rangeTitle"></p>
+        <div class="rail"><div class="band" id="band"></div><div class="mark" id="mark"></div></div>
+        <div class="rail-lbl"><span id="lo"></span><span id="hi"></span></div>
+      </div>
+
+      <dl class="facts">
+        <div><dt data-i18n="median"></dt><dd><span id="med"></span> <em id="vs"></em></dd></div>
+        <div><dt data-i18n="similar"></dt><dd id="nList"></dd></div>
+      </dl>
+      <p class="note" id="note" hidden data-i18n="lowconf"></p>
+
+      <div class="chart">
+        <p class="cap" data-i18n="chartTitle"></p>
+        <small class="sub" data-i18n="chartSub"></small>
+        <svg id="chart" viewBox="0 0 420 170" role="img"></svg>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot"><p id="foot"></p></footer>
+
+<script id="meta" type="application/json">{{ meta|tojson }}</script>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
